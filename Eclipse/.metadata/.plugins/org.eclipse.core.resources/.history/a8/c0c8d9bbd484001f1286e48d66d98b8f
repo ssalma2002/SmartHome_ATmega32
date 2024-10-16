@@ -1,0 +1,50 @@
+/*
+ * led.c
+ *
+ *  Created on: Oct 6, 2024
+ *      Author: syous
+ */
+#include "led.h"
+#include "gpio.h"
+
+/*
+ * o Red LED: Connected to PB5
+o Green LED: Connected to PB6
+o Blue LED: Connected to PB7
+ */
+void LEDS_init(void) {
+	GPIO_setupPinDirection( PORTB_ID, PIN5_ID, PIN_OUTPUT);
+	GPIO_setupPinDirection( PORTB_ID, PIN6_ID, PIN_OUTPUT);
+	GPIO_setupPinDirection( PORTB_ID, PIN7_ID, PIN_OUTPUT);
+	GPIO_writePin(PORTB_ID, PIN5_ID, LOGIC_LOW);
+	GPIO_writePin(PORTB_ID, PIN6_ID, LOGIC_LOW);
+	GPIO_writePin(PORTB_ID, PIN7_ID, LOGIC_LOW);
+}
+
+void LED_on(LED_ID id) {
+	switch(id){
+	case red:
+		GPIO_writePin(PORTB_ID, PIN5_ID, LOGIC_HIGH);
+		break;
+	case green:
+			GPIO_writePin(PORTB_ID, PIN6_ID, LOGIC_HIGH);
+			break;
+	case blue:
+			GPIO_writePin(PORTB_ID, PIN7_ID, LOGIC_HIGH);
+			break;
+	}
+}
+
+void LED_off(LED_ID id) {
+	switch(id){
+		case red:
+			GPIO_writePin(PORTB_ID, PIN5_ID, LOGIC_LOW);
+			break;
+		case green:
+				GPIO_writePin(PORTB_ID, PIN6_ID, LOGIC_LOW);
+				break;
+		case blue:
+				GPIO_writePin(PORTB_ID, PIN7_ID, LOGIC_LOW);
+				break;
+		}
+}

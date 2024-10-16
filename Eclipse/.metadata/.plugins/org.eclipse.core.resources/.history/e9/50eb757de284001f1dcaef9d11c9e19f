@@ -1,0 +1,66 @@
+/*
+ * main.c
+ *
+ *  Created on: Oct 6, 2024
+ *      Author: syous
+ */
+
+#include "lcd.h"
+#include "led.h"
+//#include "buzzer.h"
+//#include "DC_Motor.h"
+//#include "flame.h"
+//#include "lm35_sensor.h"
+#include "ldr.h"
+#include "std_types.h"
+#include "adc.h"
+//#include "avr/io.h"
+int main(void) {
+	uint16 light_intensity = 0;
+	/*Lighting Control: The LDR detects ambient light intensity and controls three LEDs to
+	 indicate different levels of light.
+	 */
+	LCD_init();
+	ADC_init();
+	LEDS_init();
+
+//	DcMotor_Init();
+	while (1) {
+//		SREG |= (1 << 7);
+		light_intensity = LDR_getLightIntensity();
+		if (light_intensity < 15) {
+			LED_on(red);
+			LED_on(green);
+			LED_on(blue);
+		} else if (light_intensity > 16 && light_intensity < 50) {
+			LED_on(red);
+			LED_on(green);
+			LED_off(blue);
+		} else if (light_intensity > 51 && light_intensity < 70) {
+			LED_on(red);
+			LED_off(green);
+			LED_off(blue);
+		} else if (light_intensity > 70) {
+			LED_off(red);
+			LED_off(green);
+			LED_off(blue);
+		}
+
+//uint8 temperature =LM35_getTemperature();
+//if(temperature >= 40){
+//	DcMotor_Rotate(CW,100);
+//}else if(temperature >=35 && temperature <40){
+//	DcMotor_Rotate(CW,75);
+//}else if(temperature >=30 && temperature <35){
+//	DcMotor_Rotate(CW,50);
+//}else if(temperature >=25 && temperature <30){
+//	DcMotor_Rotate(CW,25);
+//}else if(temperature <25){
+//	DcMotor_Rotate(Stop,0);
+//}
+//LCD_displayStringRowColumn(1,0,"FAN is ON");
+//LCD_displayStringRowColumn(1,1,"Temp =%dC LDR=%d \%",temperature,light_intensity);
+//	}
+
+	}
+}

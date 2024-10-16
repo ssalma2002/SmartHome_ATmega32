@@ -1,0 +1,53 @@
+/*
+ * DC_Motor.c
+ *
+ *  Created on: Oct 6, 2024
+ *      Author: syous
+ */
+#include "DC_Motor.h"
+void DcMotor_Init(void) {
+
+	GPIO_setupPinDirection(PORTB_ID, PIN0_ID, PIN_INPUT); /* PB0 Input Pin */
+	GPIO_setupPinDirection(PORTB_ID, PIN1_ID, PIN_INPUT); /* PB1 Input Pin */
+
+	GPIO_setupPinDirection(PORTC_ID, PIN0_ID, PIN_OUTPUT); /* PC0 Output Pin */
+	GPIO_setupPinDirection(PORTC_ID, PIN1_ID, PIN_OUTPUT); /* PC1 Output Pin */
+
+	/* Turn off the motor */
+	GPIO_writePin(PORTC_ID, PIN0_ID, LOGIC_LOW);
+	GPIO_writePin(PORTC_ID, PIN1_ID, LOGIC_LOW);
+	DcMotor_State state = Stop;
+}
+
+void DcMotor_Rotate(DcMotor_State state, uint8 speed) {
+	PWM_Timer0_Start(speed);
+	if (GPIO_readPin(PORTA_ID, PIN2_ID) == LOGIC_HIGH) {
+		switch (state) {
+
+		case CW:
+			/* Rotates the motor A-CW */
+			GPIO_writePin(PORTC_ID, PIN0_ID, LOGIC_HIGH);
+			GPIO_writePin(PORTC_ID, PIN1_ID, LOGIC_LOW);
+			state = A_CW;
+			break;
+		case A_CW:
+			/* Stop the motor */
+			GPIO_writePin(PORTC_ID, PIN0_ID, LOGIC_LOW);
+			GPIO_writePin(PORTC_ID, PIN1_ID, LOGIC_LOW);
+			state = Stop;
+			break;
+		case Stop:
+			/* Rotates the motor CW */
+			GPIO_writePin(PORTC_ID, PIN0_ID, LOGIC_LOW);
+			GPIO_writePin(PORTC_ID, PIN1_ID, LOGIC_HIGH);
+			state = CW;
+			break;
+		default:
+			/* Do Nothing */
+			break;
+		}
+
+	} else {
+		/* Do Nothing */
+	}
+}

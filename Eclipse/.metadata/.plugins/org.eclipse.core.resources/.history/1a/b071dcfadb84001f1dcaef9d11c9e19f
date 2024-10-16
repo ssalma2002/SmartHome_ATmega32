@@ -1,0 +1,25 @@
+/*
+ * led.h
+ *
+ *  Created on: Oct 6, 2024
+ *      Author: syous
+ */
+
+#ifndef LED_H_
+#define LED_H_
+/*The driver should support both Led connections Positive Logic and Negative Logic.
+ *
+ */
+
+
+typedef enum {
+	red,green,blue
+}LED_ID;
+void LEDS_init(void) ;
+
+void LED_on(LED_ID id) ;
+
+void LED_off(LED_ID id) ;
+
+
+#endif /* LED_H_ */

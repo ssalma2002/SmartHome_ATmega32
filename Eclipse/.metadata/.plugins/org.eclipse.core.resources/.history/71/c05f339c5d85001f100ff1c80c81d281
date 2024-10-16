@@ -1,0 +1,16 @@
+/*
+ * flame.c
+ *
+ *  Created on: Oct 6, 2024
+ *      Author: syous
+ */
+
+#include "flame.h"
+
+void FlameSensor_init(void) {
+	GPIO_setupPinDirection(PORTD_ID,PIN2_ID ,PIN_OUTPUT );
+}
+
+uint8 FlameSensor_getValue(void){
+	return GPIO_readPin(PORTD_ID, PIN2_ID);
+}
